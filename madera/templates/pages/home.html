@@ -14,53 +14,49 @@
     <div class="col-lg-3 col-6">
       <div class="small-box bg-info">
         <div class="inner">
-          <h3><i class="fas fa-box"></i></h3>
-          <p>{% trans "Catalog" %}</p>
+          <h3><i class="fas fa-warehouse"></i></h3>
+          <p>{% trans "Inventario" %}</p>
         </div>
         <div class="icon">
           <i class="fas fa-box-open"></i>
         </div>
-        <a href="#" class="small-box-footer">{% trans "View" %} <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="#" class="small-box-footer">{% trans "Vista" %} <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <div class="col-lg-3 col-6">
       <div class="small-box bg-success">
         <div class="inner">
           <h3><i class="fas fa-shopping-cart"></i></h3>
-          <p>{% trans "Sales" %}</p>
+          <p>{% trans "Ventas" %}</p>
         </div>
         <div class="icon">
           <i class="fas fa-chart-line"></i>
         </div>
-        <a href="#" class="small-box-footer">{% trans "View" %} <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="#" class="small-box-footer">{% trans "Vista" %} <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <div class="col-lg-3 col-6">
       <div class="small-box bg-warning">
         <div class="inner">
-          <h3><i class="fas fa-info-circle"></i></h3>
-          <p>{% trans "About" %}</p>
+          <h3><i class="fas fa-box"></i></h3>
+          <p>{% trans "Pedidos" %}</p>
         </div>
         <div class="icon">
-          <i class="fas fa-info"></i>
+          <i class="fas fa-truck-loading"></i>
         </div>
-        <a href="{% url 'about' %}" class="small-box-footer">{% trans "View" %} <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="#" class="small-box-footer">{% trans "Vista" %} <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <div class="col-lg-3 col-6">
       <div class="small-box bg-danger">
         <div class="inner">
-          <h3><i class="fas fa-user"></i></h3>
-          <p>{% trans "Account" %}</p>
+          <h3><i class="fas fa-users"></i></h3>
+          <p>{% trans "Usuarios" %}</p>
         </div>
         <div class="icon">
           <i class="fas fa-user-circle"></i>
         </div>
-        {% if request.user.is_authenticated %}
-          <a href="{% url 'users:detail' request.user.pk %}" class="small-box-footer">{% trans "My Profile" %} <i class="fas fa-arrow-circle-right"></i></a>
-        {% else %}
-          <a href="{% url 'account_login' %}" class="small-box-footer">{% trans "Sign In" %} <i class="fas fa-arrow-circle-right"></i></a>
-        {% endif %}
+        <a href="#" class="small-box-footer">{% trans "Vista" %} <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
   </div>
@@ -72,7 +68,7 @@
           <h3 class="card-title">{% trans "Welcome" %}</h3>
         </div>
         <div class="card-body">
-          <p class="mb-0">{% trans "Use this dashboard to navigate to Catalog, Sales, and your account." %}</p>
+          <p class="mb-0">{% trans "Usa este dashboard para navegar a Inventario, Ventas, Pedidos y Usuarios." %}</p>
         </div>
       </div>
     </div>

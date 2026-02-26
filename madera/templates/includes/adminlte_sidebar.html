@@ -21,30 +21,124 @@
 
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <li class="nav-item">
-          <a href="{% url 'home' %}" class="nav-link">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>{% trans "Dashboard" %}</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="{% url 'about' %}" class="nav-link">
-            <i class="nav-icon fas fa-info-circle"></i>
-            <p>{% trans "About" %}</p>
-          </a>
-        </li>
-        <li class="nav-item">
+        <!-- Módulo Inventario -->
+        <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-box"></i>
-            <p>{% trans "Catalog" %}</p>
+            <i class="nav-icon fas fa-warehouse"></i>
+            <p>
+              {% trans "Inventario" %}
+              <i class="right fas fa-angle-left"></i>
+            </p>
           </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{% trans "Productos" %}</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{% trans "Categorías" %}</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{% trans "Tasas de cambio" %}</p>
+              </a>
+            </li>
+          </ul>
         </li>
-        <li class="nav-item">
+
+        <!-- Módulo Ventas -->
+        <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-shopping-cart"></i>
-            <p>{% trans "Sales" %}</p>
+            <p>
+              {% trans "Ventas" %}
+              <i class="right fas fa-angle-left"></i>
+            </p>
           </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{% trans "Listado de ventas" %}</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{% trans "Nueva venta" %}</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{% trans "Reportes de ventas" %}</p>
+              </a>
+            </li>
+          </ul>
         </li>
+
+        <!-- Módulo Pedidos -->
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-box"></i>
+            <p>
+              {% trans "Pedidos" %}
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{% trans "Listado de pedidos" %}</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{% trans "Nuevo pedido" %}</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{% trans "Reportes de pedidos" %}</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Módulo Usuarios -->
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+              {% trans "Usuarios" %}
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{% trans "Listado de usuarios" %}</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{% trans "Nuevo usuario" %}</p>
+              </a>
+            
+          </ul>
+        </li>
+
         {% if request.user.is_staff %}
           <li class="nav-item">
             <a href="{% url 'admin:index' %}" class="nav-link">
@@ -52,36 +146,6 @@
               <p>{% trans "Admin" %}</p>
             </a>
           </li>
-        {% endif %}
-        <li class="nav-header">{% trans "Account" %}</li>
-        {% if request.user.is_authenticated %}
-          <li class="nav-item">
-            <a href="{% url 'users:detail' request.user.pk %}" class="nav-link">
-              <i class="nav-icon fas fa-user"></i>
-              <p>{% trans "My Profile" %}</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'account_logout' %}" class="nav-link">
-              <i class="nav-icon fas fa-sign-out-alt"></i>
-              <p>{% trans "Sign Out" %}</p>
-            </a>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a href="{% url 'account_login' %}" class="nav-link">
-              <i class="nav-icon fas fa-sign-in-alt"></i>
-              <p>{% trans "Sign In" %}</p>
-            </a>
-          </li>
-          {% if ACCOUNT_ALLOW_REGISTRATION %}
-            <li class="nav-item">
-              <a href="{% url 'account_signup' %}" class="nav-link">
-                <i class="nav-icon fas fa-user-plus"></i>
-                <p>{% trans "Sign Up" %}</p>
-              </a>
-            </li>
-          {% endif %}
         {% endif %}
       </ul>
     </nav>
