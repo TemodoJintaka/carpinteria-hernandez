@@ -57,7 +57,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 COPY --from=python-build-stage --chown=app:app /app /app
 
 COPY ./compose/local/docs/start /start-docs
-RUN sed -i 's/\r$//g' /start-docs
+RUN sed 's/\r$//g' /start-docs > /tmp/start-docs && mv /tmp/start-docs /start-docs
 RUN chmod +x /start-docs
 
 ENV PATH="/app/.venv/bin:$PATH"
