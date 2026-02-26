@@ -60,19 +60,6 @@ COPY ./compose/local/django/start /start
 RUN sed 's/\r$//g' /start > /tmp/start && mv /tmp/start /start
 RUN chmod +x /start
 
-
-COPY ./compose/local/django/celery/worker/start /start-celeryworker
-RUN sed 's/\r$//g' /start-celeryworker > /tmp/start-celeryworker && mv /tmp/start-celeryworker /start-celeryworker
-RUN chmod +x /start-celeryworker
-
-COPY ./compose/local/django/celery/beat/start /start-celerybeat
-RUN sed 's/\r$//g' /start-celerybeat > /tmp/start-celerybeat && mv /tmp/start-celerybeat /start-celerybeat
-RUN chmod +x /start-celerybeat
-
-COPY ./compose/local/django/celery/flower/start /start-flower
-RUN sed 's/\r$//g' /start-flower > /tmp/start-flower && mv /tmp/start-flower /start-flower
-RUN chmod +x /start-flower
-
 USER dev-user
 
 ENTRYPOINT ["/entrypoint"]

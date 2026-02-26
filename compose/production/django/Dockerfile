@@ -60,19 +60,6 @@ RUN chmod +x /entrypoint
 COPY --chown=django:django ./compose/production/django/start /start
 RUN sed 's/\r$//g' /start > /tmp/start && mv /tmp/start /start
 RUN chmod +x /start
-COPY --chown=django:django ./compose/production/django/celery/worker/start /start-celeryworker
-RUN sed 's/\r$//g' /start-celeryworker > /tmp/start-celeryworker && mv /tmp/start-celeryworker /start-celeryworker
-RUN chmod +x /start-celeryworker
-
-
-COPY --chown=django:django ./compose/production/django/celery/beat/start /start-celerybeat
-RUN sed 's/\r$//g' /start-celerybeat > /tmp/start-celerybeat && mv /tmp/start-celerybeat /start-celerybeat
-RUN chmod +x /start-celerybeat
-
-
-COPY --chown=django:django ./compose/production/django/celery/flower/start /start-flower
-RUN sed 's/\r$//g' /start-flower > /tmp/start-flower && mv /tmp/start-flower /start-flower
-RUN chmod +x /start-flower
 
 # Copy the application from the builder
 COPY --from=python-build-stage --chown=django:django ${APP_HOME} ${APP_HOME}
