@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "About" %}{% endblock title %}
+
+{% block page_title %}{% trans "About" %}{% endblock page_title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">{% trans "About" %}</li>
+{% endblock breadcrumb %}
+
+{% block main %}
+  <div class="card">
+    <div class="card-body">
+      <p>{% trans "About Madera." %}</p>
+    </div>
+  </div>
+{% endblock main %}
+

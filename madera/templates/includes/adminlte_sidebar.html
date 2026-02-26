@@ -1,0 +1,89 @@
+{% load static i18n %}
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <a href="{% url 'home' %}" class="brand-link">
+    <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8" />
+    <span class="brand-text font-weight-light">Madera</span>
+  </a>
+
+  <div class="sidebar">
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image" />
+      </div>
+      <div class="info">
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'users:detail' request.user.pk %}" class="d-block">{{ request.user.email }}</a>
+        {% else %}
+          <span class="d-block text-white-50">{% trans "Guest" %}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-item">
+          <a href="{% url 'home' %}" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>{% trans "Dashboard" %}</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'about' %}" class="nav-link">
+            <i class="nav-icon fas fa-info-circle"></i>
+            <p>{% trans "About" %}</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-box"></i>
+            <p>{% trans "Catalog" %}</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-shopping-cart"></i>
+            <p>{% trans "Sales" %}</p>
+          </a>
+        </li>
+        {% if request.user.is_staff %}
+          <li class="nav-item">
+            <a href="{% url 'admin:index' %}" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>{% trans "Admin" %}</p>
+            </a>
+          </li>
+        {% endif %}
+        <li class="nav-header">{% trans "Account" %}</li>
+        {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a href="{% url 'users:detail' request.user.pk %}" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>{% trans "My Profile" %}</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'account_logout' %}" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>{% trans "Sign Out" %}</p>
+            </a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a href="{% url 'account_login' %}" class="nav-link">
+              <i class="nav-icon fas fa-sign-in-alt"></i>
+              <p>{% trans "Sign In" %}</p>
+            </a>
+          </li>
+          {% if ACCOUNT_ALLOW_REGISTRATION %}
+            <li class="nav-item">
+              <a href="{% url 'account_signup' %}" class="nav-link">
+                <i class="nav-icon fas fa-user-plus"></i>
+                <p>{% trans "Sign Up" %}</p>
+              </a>
+            </li>
+          {% endif %}
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</aside>
