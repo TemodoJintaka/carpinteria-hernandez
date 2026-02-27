@@ -4,6 +4,9 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
@@ -13,9 +16,15 @@ class Product(models.Model):
     image = models.ImageField(upload_to='productos/')
     is_published = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
+
 class ExchangeRate(models.Model):
     value_bolivares = models.DecimalField(max_digits=10, decimal_places=2)
     update_date = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name_plural = "Tasa de Cambio"
+
+    def __str__(self):
+        return f"{self.value_bolivares} Bs. para 1 USD el {self.update_date}"

@@ -20,7 +20,7 @@ urlpatterns = [
     path("users/", include("madera.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    # ...
+    path("catalog/", include("madera.catalog.urls", namespace="catalog")),
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

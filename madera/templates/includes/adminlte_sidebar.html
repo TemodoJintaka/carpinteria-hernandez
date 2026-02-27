@@ -32,15 +32,15 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{% url 'catalog:category_list' %}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>{% trans "Productos" %}</p>
+                <p>{% trans "Categorías" %}</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{% url 'catalog:product_list' %}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>{% trans "Categorías" %}</p>
+                <p>{% trans "Productos" %}</p>
               </a>
             </li>
             <li class="nav-item">

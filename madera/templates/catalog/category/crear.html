@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags i18n %}
+
+{% block title %}{% trans "Nueva categoría" %}{% endblock title %}
+
+{% block page_title %}{% trans "Nueva categoría" %}{% endblock page_title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'catalog:category_list' %}">{% trans "Categorías" %}</a></li>
+  <li class="breadcrumb-item active">{% trans "Nueva" %}</li>
+{% endblock breadcrumb %}
+
+{% block main %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">{% trans "Nueva categoría" %}</h3>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button type="submit" class="btn btn-primary">
+            {% trans "Guardar" %}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock main %}
