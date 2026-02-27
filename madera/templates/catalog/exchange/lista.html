@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Productos" %}{% endblock title %}
+{% block title %}{% trans "Tasa de cambio" %}{% endblock title %}
 
 {% block extrastyle %}
   <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.bootstrap4.min.css" />
@@ -10,61 +10,45 @@
 
 {% block page_title %}
   <div class="d-flex align-items-center">
-    <span class="mr-3">{% trans "Productos" %}</span>
+    <span class="mr-3">{% trans "Tasa de cambio" %}</span>
   </div>
 {% endblock page_title %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item active">{% trans "Productos" %}</li>
+  <li class="breadcrumb-item active">{% trans "Tasa de cambio" %}</li>
 {% endblock breadcrumb %}
 
 {% block main %}
   <div class="card">
-    <a href="{% url 'catalog:product_create' %}" class="btn btn-primary btn-sm">
-      {% trans "Crear producto" %}
+    <a href="{% url 'catalog:exchange_rate_create' %}" class="btn btn-primary btn-sm">
+      {% trans "Crear tasa de cambio" %}
     </a>
     <div class="card-body p-0">
       
-      <table class="table table-striped table-hover mb-0 text-center" id="productTable">
+      <table class="table table-striped table-hover mb-0 text-center" id="exchangeRateTable">
         
         <thead class="thead-light">
           <tr>
-            <th class="text-center">{% trans "Imagen" %}</th>
-            <th class="text-center">{% trans "Nombre" %}</th>
-            <th class="text-center">{% trans "Categoría" %}</th>
-            <th class="text-center">{% trans "Precio" %}</th>
-            <th class="text-center">{% trans "Stock" %}</th>
-            <th class="text-center">{% trans "Publicado" %}</th>
+            <th class="text-center">{% trans "Tasa de cambio" %}</th>
+            <th class="text-center">{% trans "Fecha de actualización" %}</th>
             <th class="text-center">{% trans "Acciones" %}</th>
           </tr>
         </thead>
         <tbody>
-          {% for product in products %}
+          {% for exchange_rate in exchange_rates %}
             <tr>
+              <td class="text-center align-middle">{{ exchange_rate.value_bolivares }}</td>
+              <td class="text-center align-middle">{{ exchange_rate.update_date }}</td>
               <td class="text-center align-middle">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
-              </td>
-              <td class="text-center align-middle">{{ product.name }}</td>
-              <td class="text-center align-middle">{{ product.category.name }}</td>
-              <td class="text-center align-middle">${{ product.price_usd }}</td>
-              <td class="text-center align-middle">{{ product.stock }}</td>
-              <td class="text-center align-middle">{{ product.is_published|yesno:_("Sí,No") }}</td>
-              <td class="text-center align-middle">
-                <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-warning btn-sm">{% trans "Editar" %}</a>
+                <a href="{% url 'catalog:exchange_rate_update' exchange_rate.pk %}" class="btn btn-warning btn-sm">{% trans "Editar" %}</a>
                 <button type="button"
                         class="btn btn-danger btn-sm"
                         data-toggle="modal"
                         data-target="#deleteModal"
-                        data-url="{% url 'catalog:product_delete' product.pk %}"
-                        data-name="{{ product.name }}">
+                        data-url="{% url 'catalog:exchange_rate_delete' exchange_rate.pk %}"
+                        data-name="{{ exchange_rate.value_bolivares }}">
                   {% trans "Eliminar" %}
                 </button>
-              </td>
-            </tr>
-          {% empty %}
-            <tr>
-              <td colspan="6" class="text-center text-muted py-4">
-                {% trans "No hay productos registrados." %}
               </td>
             </tr>
           {% endfor %}
@@ -73,7 +57,7 @@
     </div>
   </div>
 
-  <!-- Modal eliminar categoría -->
+  <!-- Modal eliminar tasa de cambio -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content shadow">
@@ -87,8 +71,8 @@
         </div>
         <div class="modal-body">
           <p class="mb-0">
-            {% trans "¿Seguro que quieres eliminar el producto" %}
-            "<strong id="deleteProductName"></strong>"?
+            {% trans "¿Seguro que quieres eliminar la tasa de cambio" %}
+            "<strong id="deleteExchangeRateName"></strong>"?
           </p>
         </div>
         <div class="modal-footer">
@@ -115,7 +99,7 @@
       var url = button.data('url');
       var name = button.data('name');
       var modal = $(this);
-      modal.find('#deleteProductName').text(name);
+      modal.find('#deleteExchangeRateName').text(name);
       modal.find('#deleteForm').attr('action', url);
     });
   })();
@@ -124,16 +108,17 @@
 <script src="https://cdn.datatables.net/2.3.7/js/dataTables.bootstrap4.min.js"></script>
 <script>
   $(function() {
-    $('#productTable').DataTable({
+    $('#exchangeRateTable').DataTable({
       language: {
-        url: 'https://cdn.datatables.net/plug-ins/2.3.7/i18n/es-ES.json'
+        url: 'https://cdn.datatables.net/plug-ins/2.3.7/i18n/es-ES.json',
+        emptyTable: "{% trans 'No hay tasa de cambio registrada.' %}"
       },
       pageLength: 10,
       lengthChange: false,
       ordering: true,
-      order: [[0, 'asc']],
+      order: [[1, 'desc']],
       columnDefs: [
-        { orderable: false, targets: 5 }
+        { orderable: false, targets: 2 }
       ]
     });
   });

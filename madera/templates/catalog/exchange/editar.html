@@ -2,23 +2,6 @@
 {% load crispy_forms_tags i18n %}
 
 {% block extrastyle %}{{ block.super }}
-<style>
-  /* Select de categoría: ocupa todo el ancho de su columna y aspecto de input */
-  .select-as-input,
-  #div_id_category select {
-    width: 100% !important;
-    min-height: calc(1.5em + 0.75rem + 2px);
-    padding: 0.375rem 0.75rem;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 16px 12px;
-    padding-right: 2.25rem;
-  }
-</style>
 {% endblock extrastyle %}
 
 {% block main %}
@@ -26,46 +9,12 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">{% trans "Nueva producto" %}</h3>
+        <h3 class="card-title">{% trans "Nueva tasa de cambio" %}</h3>
       </div>
       <div class="card-body">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post">
           {% csrf_token %}
-
-          <div class="row">
-            <div class="col-md-6">
-              {{ form.name|as_crispy_field }}
-            </div>
-            <div class="col-md-6">
-              {{ form.price_usd|as_crispy_field }}
-            </div>
-            <div class="col-md-6">
-              {{ form.stock|as_crispy_field }}
-            </div>
-            
-            <div class="col-md-6">
-              {{ form.image|as_crispy_field }}
-            </div>
-            <div class="col-md-6">
-              {{ form.category|as_crispy_field }}
-            </div>
-            <div class="col-md-6 d-flex align-items-end">
-              <div class="custom-control custom-switch mb-3">
-                {{ form.is_published }}
-                <label class="custom-control-label" for="id_is_published">{% trans "Publicado" %}</label>
-              </div>
-              {% if form.is_published.errors %}
-                <div class="invalid-feedback d-block ml-2">{{ form.is_published.errors }}</div>
-              {% endif %}
-            </div>
-          </div>
-
-          <div class="row mt-3">
-            <div class="col-12">
-              {{ form.description|as_crispy_field }}
-            </div>
-          </div>
-
+          {{ form|crispy }}
           <button type="submit" class="btn btn-primary mt-3">
             {% trans "Guardar" %}
           </button>
