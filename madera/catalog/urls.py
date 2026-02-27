@@ -7,6 +7,11 @@ CategoryDeleteView,
 ProductListView,
 ProductCreateView, 
 ProductUpdateView,
+ProductDeleteView,
+ExchangeRateListView,
+ExchangeRateCreateView,
+ExchangeRateUpdateView,
+ExchangeRateDeleteView,
 )
 app_name = 'catalog'
 
@@ -18,4 +23,9 @@ urlpatterns = [
     path('products/', ProductListView.as_view(), name='product_list'),
     path('products/create/', ProductCreateView.as_view(), name='product_create'),
     path('products/<int:pk>/update/', ProductUpdateView.as_view(), name='product_update'),
+    path('products/<int:pk>/delete/', ProductDeleteView.as_view(), name='product_delete'),
+    path('exchange-rates/', ExchangeRateListView.as_view(), name='exchange_rate_list'),
+    path('exchange-rates/create/', ExchangeRateCreateView.as_view(), name='exchange_rate_create'),
+    path('exchange-rates/<int:pk>/update/', ExchangeRateUpdateView.as_view(), name='exchange_rate_update'),
+    path('exchange-rates/<int:pk>/delete/', ExchangeRateDeleteView.as_view(), name='exchange_rate_delete'),
 ]

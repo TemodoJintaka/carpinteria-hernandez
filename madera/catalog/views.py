@@ -7,6 +7,7 @@ from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
 from .CategoryForm import CategoryForm
 from .ProductForm import ProductForm
+from .ExchangerateForm import ExchangeRateForm
 
 class CategoryListView(ListView):
     model = Category
@@ -52,3 +53,31 @@ class ProductUpdateView(UpdateView):
     template_name = 'catalog/product/editar.html'
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'catalog/product/eliminar.html'
+    success_url = reverse_lazy('catalog:product_list')
+
+class ExchangeRateListView(ListView):
+    model = ExchangeRate
+    template_name = 'catalog/exchange/lista.html'
+    context_object_name = 'exchange_rates'
+    paginate_by = 10
+
+class ExchangeRateCreateView(CreateView):
+    model = ExchangeRate
+    template_name = 'catalog/exchange/crear.html'
+    form_class = ExchangeRateForm
+    success_url = reverse_lazy('catalog:exchange_rate_list')
+
+class ExchangeRateUpdateView(UpdateView):
+    model = ExchangeRate
+    template_name = 'catalog/exchange/editar.html'
+    form_class = ExchangeRateForm
+    success_url = reverse_lazy('catalog:exchange_rate_list')
+
+class ExchangeRateDeleteView(DeleteView):
+    model = ExchangeRate
+    template_name = 'catalog/exchange/eliminar.html'
+    success_url = reverse_lazy('catalog:exchange_rate_list')
