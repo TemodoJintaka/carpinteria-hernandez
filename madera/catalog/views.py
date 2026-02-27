@@ -5,9 +5,9 @@ from madera.catalog.models import Product, Category, ExchangeRate
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView
 from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
-from .CategoryForm import CategoryForm
-from .ProductForm import ProductForm
-from .ExchangerateForm import ExchangeRateForm
+from .Forms.CategoryForm import CategoryForm
+from .Forms.ProductForm import ProductForm
+from .Forms.ExchangerateForm import ExchangeRateForm
 
 class CategoryListView(ListView):
     model = Category
