@@ -5,10 +5,24 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include
 from django.urls import path
 from django.views import defaults as default_views
-from django.views.generic import TemplateView
-
+from django.views.generic import TemplateView, RedirectView
+from madera.catalog.views import HomeView
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path("", HomeView.as_view(), name="home"),
+    path("dashboardv2/", HomeView.as_view(), name="dashboardv2"),
+    path("dashboardv3/", HomeView.as_view(), name="dashboardv3"),
+    # Alias para que las plantillas del admin que usan 'login' y 'logout'
+    # redirijan a las vistas de allauth.
+    path(
+        "login/",
+        RedirectView.as_view(pattern_name="account_login", permanent=False),
+        name="login",
+    ),
+    path(
+        "logout/",
+        RedirectView.as_view(pattern_name="account_logout", permanent=False),
+        name="logout",
+    ),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),
@@ -21,6 +35,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
     path("catalog/", include("madera.catalog.urls", namespace="catalog")),
+    path("landing/", include(("madera.web.urls", "landing"))),
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

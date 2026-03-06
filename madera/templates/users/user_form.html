@@ -1,27 +1,24 @@
 {% extends "base.html" %}
 
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block title %}
-  {{ user.name }}
+  {% trans "Editar perfil" %} - {{ object.name|default:user.name }}
 {% endblock title %}
 {% block main %}
-  <h1>
-  
-  
-    {{ user.name }}
-  
-  
-</h1>
-<form class="form-horizontal"
-      method="post"
-      action="{% url 'users:update' %}">
-  {% csrf_token %}
-  {{ form|crispy }}
-  <div class="control-group">
-    <div class="controls">
-      <button type="submit" class="btn btn-primary">Update</button>
+  <h1>{% trans "Editar perfil" %}</h1>
+  <p class="text-muted">{% trans "El email no se puede modificar una vez creada la cuenta." %}</p>
+  <form class="form-horizontal"
+        method="post"
+        enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn btn-primary">{% trans "Guardar" %}</button>
+        <a href="{% url 'users:detail' object.pk|default:user.pk %}" class="btn btn-secondary">{% trans "Cancelar" %}</a>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
 {% endblock main %}

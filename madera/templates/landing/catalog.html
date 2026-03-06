@@ -1,0 +1,436 @@
+{% extends "landing/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Catálogo" %}{% endblock title %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <style>
+    .catalog-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 991.98px) {
+      .catalog-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .catalog-filter-card {
+      position: sticky;
+      top: 5rem;
+    }
+    .category-pill {
+      cursor: pointer;
+    }
+    .category-pill.active {
+      background-color: var(--madera-primary);
+      color: #fff;
+    }
+  </style>
+{% endblock extrastyle %}
+
+{% block content %}
+  <section class="py-4 bg-white border-bottom">
+    <div class="container">
+      <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+        <div>
+          <h1 class="font-serif mb-1 text-madera">{% trans "Catálogo de productos" %}</h1>
+          <p class="text-muted mb-0">
+            {% trans "Explora la madera disponible por categoría, filtra por precio o busca por nombre." %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-4">
+    <div class="container">
+      <div class="catalog-layout">
+        <aside>
+          <div class="card border-0 shadow-sm rounded-3 catalog-filter-card">
+            <div class="card-body">
+              <h5 class="card-title font-serif mb-3">{% trans "Filtros" %}</h5>
+
+              <div class="mb-3">
+                <label class="form-label small text-muted mb-1" for="searchInput">{% trans "Buscar producto" %}</label>
+                <input type="search" id="searchInput" class="form-control form-control-sm"
+                       placeholder="{% trans 'Nombre, tipo de madera, uso…' %}">
+              </div>
+
+              <div class="mb-3">
+                <p class="form-label small text-muted mb-1 mb-2">{% trans "Categorías" %}</p>
+                <div class="d-flex flex-wrap gap-2" id="categoryPills">
+                  <span class="badge rounded-pill bg-light text-madera border category-pill active"
+                        data-category="all">
+                    {% trans "Todas" %}
+                  </span>
+                  <span class="badge rounded-pill bg-light text-madera border category-pill"
+                        data-category="maderas-nobles">
+                    {% trans "Maderas nobles" %}
+                  </span>
+                  <span class="badge rounded-pill bg-light text-madera border category-pill"
+                        data-category="construccion">
+                    {% trans "Construcción" %}
+                  </span>
+                  <span class="badge rounded-pill bg-light text-madera border category-pill"
+                        data-category="tableros">
+                    {% trans "Tableros y placas" %}
+                  </span>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <p class="form-label small text-muted mb-1 mb-2">{% trans "Rango de precio estimado" %}</p>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <input type="number" class="form-control form-control-sm" id="priceMin"
+                           placeholder="{% trans 'Mín.' %}">
+                  </div>
+                  <div class="col-6">
+                    <input type="number" class="form-control form-control-sm" id="priceMax"
+                           placeholder="{% trans 'Máx.' %}">
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <p class="form-label small text-muted mb-1 mb-2">{% trans "Tipo de producto" %}</p>
+                <div class="form-check">
+                  <input class="form-check-input product-type-filter" type="checkbox" value="tablas"
+                         id="typeBoards" checked>
+                  <label class="form-check-label small" for="typeBoards">
+                    {% trans "Tablas / listones" %}
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input product-type-filter" type="checkbox" value="vigas"
+                         id="typeBeams" checked>
+                  <label class="form-check-label small" for="typeBeams">
+                    {% trans "Vigas / estructural" %}
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input product-type-filter" type="checkbox" value="tableros"
+                         id="typePanels" checked>
+                  <label class="form-check-label small" for="typePanels">
+                    {% trans "Tableros / placas" %}
+                  </label>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-sm btn-outline-secondary w-100" id="clearFiltersBtn">
+                {% trans "Limpiar filtros" %}
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <p class="small text-muted mb-0" id="resultsSummary">
+              {% trans "Mostrando todos los productos de ejemplo." %}
+            </p>
+            <div class="d-none d-md-flex align-items-center gap-2">
+              <span class="small text-muted">{% trans "Ordenar por" %}:</span>
+              <select class="form-select form-select-sm" id="sortSelect">
+                <option value="name-asc">{% trans "Nombre (A–Z)" %}</option>
+                <option value="price-asc">{% trans "Precio (menor a mayor)" %}</option>
+                <option value="price-desc">{% trans "Precio (mayor a menor)" %}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row g-4" id="productGrid">
+            {# Ejemplos de productos estáticos solo frontend.
+               Más adelante se pueden reemplazar por un loop de Django con productos reales. #}
+            <div class="col-md-6 col-lg-4 product-card-wrapper"
+                 data-name="Tabla de pino cepillada"
+                 data-category="construccion"
+                 data-type="tablas"
+                 data-price="5500"
+                 data-tags="pino construcción estructura">
+              <div class="card h-100 border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                  <span class="badge bg-light text-madera border mb-2">{% trans "Construcción" %}</span>
+                  <h5 class="card-title font-serif mb-1">{% trans "Tabla de pino cepillada" %}</h5>
+                  <p class="small text-muted mb-2">
+                    {% trans "Ideal para estructuras livianas y techumbres." %}
+                  </p>
+                  <p class="fw-semibold mb-0">
+                    $ 5.500 <span class="small text-muted">/ {% trans "m" %}³</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 product-card-wrapper"
+                 data-name="Listón de cedro"
+                 data-category="maderas-nobles"
+                 data-type="tablas"
+                 data-price="9800"
+                 data-tags="cedro muebles noble interior">
+              <div class="card h-100 border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                  <span class="badge bg-light text-madera border mb-2">{% trans "Maderas nobles" %}</span>
+                  <h5 class="card-title font-serif mb-1">{% trans "Listón de cedro" %}</h5>
+                  <p class="small text-muted mb-2">
+                    {% trans "Perfecto para muebles finos y terminaciones." %}
+                  </p>
+                  <p class="fw-semibold mb-0">
+                    $ 9.800 <span class="small text-muted">/ {% trans "m" %}³</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 product-card-wrapper"
+                 data-name="Viga estructural de pino"
+                 data-category="construccion"
+                 data-type="vigas"
+                 data-price="7200"
+                 data-tags="viga pino estructura techumbre">
+              <div class="card h-100 border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                  <span class="badge bg-light text-madera border mb-2">{% trans "Construcción" %}</span>
+                  <h5 class="card-title font-serif mb-1">{% trans "Viga estructural de pino" %}</h5>
+                  <p class="small text-muted mb-2">
+                    {% trans "Para cargas medias y estructuras interiores." %}
+                  </p>
+                  <p class="fw-semibold mb-0">
+                    $ 7.200 <span class="small text-muted">/ {% trans "m" %}³</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 product-card-wrapper"
+                 data-name="Tablero de MDF crudo"
+                 data-category="tableros"
+                 data-type="tableros"
+                 data-price="4300"
+                 data-tags="tablero mdf placa muebles">
+              <div class="card h-100 border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                  <span class="badge bg-light text-madera border mb-2">{% trans "Tableros y placas" %}</span>
+                  <h5 class="card-title font-serif mb-1">{% trans "Tablero de MDF crudo" %}</h5>
+                  <p class="small text-muted mb-2">
+                    {% trans "Para muebles modulares y revestimientos interiores." %}
+                  </p>
+                  <p class="fw-semibold mb-0">
+                    $ 4.300 <span class="small text-muted">/ {% trans "m" %}²</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 product-card-wrapper"
+                 data-name="Tablero OSB estructural"
+                 data-category="tableros"
+                 data-type="tableros"
+                 data-price="5100"
+                 data-tags="osb tablero estructural techumbre">
+              <div class="card h-100 border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                  <span class="badge bg-light text-madera border mb-2">{% trans "Tableros y placas" %}</span>
+                  <h5 class="card-title font-serif mb-1">{% trans "Tablero OSB estructural" %}</h5>
+                  <p class="small text-muted mb-2">
+                    {% trans "Recomendado para cubiertas y muros estructurales." %}
+                  </p>
+                  <p class="fw-semibold mb-0">
+                    $ 5.100 <span class="small text-muted">/ {% trans "m" %}²</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 product-card-wrapper"
+                 data-name="Viga laminada"
+                 data-category="maderas-nobles"
+                 data-type="vigas"
+                 data-price="12500"
+                 data-tags="laminada viga noble decoración">
+              <div class="card h-100 border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                  <span class="badge bg-light text-madera border mb-2">{% trans "Maderas nobles" %}</span>
+                  <h5 class="card-title font-serif mb-1">{% trans "Viga laminada" %}</h5>
+                  <p class="small text-muted mb-2">
+                    {% trans "Excelente para vigas vistas y terminaciones." %}
+                  </p>
+                  <p class="fw-semibold mb-0">
+                    $ 12.500 <span class="small text-muted">/ {% trans "m" %}³</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
+
+{% block extra_scripts %}
+  {{ block.super }}
+  <script>
+    (function () {
+      const searchInput = document.getElementById('searchInput');
+      const categoryPills = document.querySelectorAll('.category-pill');
+      const priceMinInput = document.getElementById('priceMin');
+      const priceMaxInput = document.getElementById('priceMax');
+      const typeCheckboxes = document.querySelectorAll('.product-type-filter');
+      const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+      const productCards = Array.from(document.querySelectorAll('.product-card-wrapper'));
+      const resultsSummary = document.getElementById('resultsSummary');
+      const sortSelect = document.getElementById('sortSelect');
+
+      function getActiveCategory() {
+        const active = document.querySelector('.category-pill.active');
+        return active ? active.getAttribute('data-category') : 'all';
+      }
+
+      function getActiveTypes() {
+        const types = [];
+        typeCheckboxes.forEach(cb => {
+          if (cb.checked) {
+            types.push(cb.value);
+          }
+        });
+        return types;
+      }
+
+      function applyFilters() {
+        const term = (searchInput.value || '').toLowerCase().trim();
+        const category = getActiveCategory();
+        const priceMin = parseFloat(priceMinInput.value || '');
+        const priceMax = parseFloat(priceMaxInput.value || '');
+        const types = getActiveTypes();
+
+        let visibleCount = 0;
+
+        productCards.forEach(card => {
+          const name = (card.getAttribute('data-name') || '').toLowerCase();
+          const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+          const cardCategory = card.getAttribute('data-category') || '';
+          const cardType = card.getAttribute('data-type') || '';
+          const price = parseFloat(card.getAttribute('data-price') || '0');
+
+          let visible = true;
+
+          if (term && !(name.includes(term) || tags.includes(term))) {
+            visible = false;
+          }
+
+          if (category !== 'all' && cardCategory !== category) {
+            visible = false;
+          }
+
+          if (!types.includes(cardType)) {
+            visible = false;
+          }
+
+          if (!isNaN(priceMin) && price < priceMin) {
+            visible = false;
+          }
+
+          if (!isNaN(priceMax) && price > priceMax) {
+            visible = false;
+          }
+
+          if (visible) {
+            card.classList.remove('d-none');
+            visibleCount += 1;
+          } else {
+            card.classList.add('d-none');
+          }
+        });
+
+        if (visibleCount === productCards.length) {
+          resultsSummary.textContent = '{{ _("Mostrando todos los productos de ejemplo.") }}';
+        } else if (visibleCount === 0) {
+          resultsSummary.textContent = '{{ _("No hay productos que coincidan con los filtros.") }}';
+        } else {
+          resultsSummary.textContent = '{{ _("Mostrando") }} ' + visibleCount + ' {{ _("producto(s).") }}';
+        }
+      }
+
+      function clearFilters() {
+        searchInput.value = '';
+        priceMinInput.value = '';
+        priceMaxInput.value = '';
+        categoryPills.forEach(pill => pill.classList.remove('active'));
+        const allPill = document.querySelector('.category-pill[data-category="all"]');
+        if (allPill) {
+          allPill.classList.add('active');
+        }
+        typeCheckboxes.forEach(cb => {
+          cb.checked = true;
+        });
+        sortSelect.value = 'name-asc';
+        applySort();
+        applyFilters();
+      }
+
+      function applySort() {
+        const value = sortSelect.value;
+        const grid = document.getElementById('productGrid');
+        if (!grid) {
+          return;
+        }
+
+        const sorted = productCards.slice().sort((a, b) => {
+          const nameA = (a.getAttribute('data-name') || '').toLowerCase();
+          const nameB = (b.getAttribute('data-name') || '').toLowerCase();
+          const priceA = parseFloat(a.getAttribute('data-price') || '0');
+          const priceB = parseFloat(b.getAttribute('data-price') || '0');
+
+          if (value === 'name-asc') {
+            return nameA.localeCompare(nameB);
+          }
+          if (value === 'price-asc') {
+            return priceA - priceB;
+          }
+          if (value === 'price-desc') {
+            return priceB - priceA;
+          }
+          return 0;
+        });
+
+        sorted.forEach(card => grid.appendChild(card));
+      }
+
+      categoryPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          categoryPills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          applyFilters();
+        });
+      });
+
+      [searchInput, priceMinInput, priceMaxInput].forEach(input => {
+        if (input) {
+          input.addEventListener('input', applyFilters);
+        }
+      });
+
+      typeCheckboxes.forEach(cb => {
+        cb.addEventListener('change', applyFilters);
+      });
+
+      if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', clearFilters);
+      }
+
+      if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+          applySort();
+          applyFilters();
+        });
+      }
+
+      applySort();
+      applyFilters();
+    })();
+  </script>
+{% endblock extra_scripts %}
+

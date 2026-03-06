@@ -1,0 +1,43 @@
+{% load i18n %}
+<footer class="bg-dark text-light pt-5 pb-3 mt-5" id="contacto">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h5 class="font-serif text-warning mb-3">Madera</h5>
+        <p class="small mb-0 opacity-85">
+          {% trans "Venta de madera de calidad para construcción, muebles y proyectos. Cortes a medida y asesoría profesional." %}
+        </p>
+      </div>
+      <div class="col-md-2">
+        <h6 class="text-uppercase small text-warning mb-3">{% trans "Enlaces" %}</h6>
+        <ul class="list-unstyled small">
+          <li><a href="{% url 'landing:landing' %}#productos" class="text-light text-decoration-none">{% trans "Productos" %}</a></li>
+          <li><a href="{% url 'landing:landing' %}#nosotros" class="text-light text-decoration-none">{% trans "Nosotros" %}</a></li>
+          <li><a href="{% url 'catalog:product_list' %}" class="text-light text-decoration-none">{% trans "Catálogo" %}</a></li>
+          <li><a href="{% url 'account_login' %}" class="text-light text-decoration-none">{% trans "Acceso" %}</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h6 class="text-uppercase small text-warning mb-3">{% trans "Contacto" %}</h6>
+        <ul class="list-unstyled small opacity-85">
+          <li><span class="text-muted">{% trans "Teléfono:" %}</span> +58 000 000 0000</li>
+          <li><span class="text-muted">{% trans "Email:" %}</span> info@madera.example.com</li>
+          <li><span class="text-muted">{% trans "Dirección:" %}</span> {% trans "Ciudad, País" %}</li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h6 class="text-uppercase small text-warning mb-3">{% trans "Horario" %}</h6>
+        <p class="small opacity-85 mb-0">
+          {% trans "Lun - Vie:" %} 8:00 - 18:00<br />
+          {% trans "Sáb:" %} 8:00 - 13:00
+        </p>
+      </div>
+    </div>
+    <hr class="my-4 border-secondary" />
+    <div class="row">
+      <div class="col text-center small opacity-75">
+        &copy; {% now "Y" %} Madera. {% trans "Todos los derechos reservados." %}
+      </div>
+    </div>
+  </div>
+</footer>

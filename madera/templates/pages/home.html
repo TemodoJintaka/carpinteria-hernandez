@@ -2,11 +2,16 @@
 {% load i18n %}
 
 {% block title %}{% trans "Dashboard" %}{% endblock title %}
-
-{% block page_title %}{% trans "Dashboard" %}{% endblock page_title %}
+{% block page_title %}
+  {% if request.user.is_authenticated %}
+    {% trans "Bienvenido a Carpitec.S.R.L" %} – {{ request.user.name }}
+  {% else %}
+    {% trans "Bienvenido a Carpitec.S.R.L" %}
+  {% endif %}
+{% endblock page_title %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item active">{% trans "Dashboard" %}</li>
+  <li class="breadcrumb-item active">{% trans "Dashboad" %}</li>
 {% endblock breadcrumb %}
 
 {% block main %}

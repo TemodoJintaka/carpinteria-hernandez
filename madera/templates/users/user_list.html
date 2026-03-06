@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+  {% trans "Listado de usuarios" %}
+{% endblock title %}
+{% block main %}
+  <h1>{% trans "Listado de usuarios" %}</h1>
+  <a href="{% url 'users:create' %}" class="btn btn-primary mb-3">{% trans "Nuevo usuario" %}</a>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>{% trans "Imagen" %}</th>
+        <th>{% trans "Nombre" %}</th>
+        <th>{% trans "Email" %}</th>
+        <th>{% trans "Acciones" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in user_list %}
+        <tr>
+          <td>
+            {% if u.image %}
+              <img src="{{ u.image.url }}" alt="{{ u.name }}" class="rounded-circle" width="40" height="40" style="object-fit: cover;" />
+            {% else %}
+              <img src="{% static 'dist/img/user2-160x160.jpg' %}" alt="{{ u.name }}" class="rounded-circle" width="40" height="40" style="object-fit: cover;" />
+            {% endif %}
+          </td>
+          <td>{{ u.name }}</td>
+          <td>{{ u.email }}</td>
+          <td>
+            <a href="{% url 'users:edit' u.pk %}" class="btn btn-sm btn-primary">{% trans "Editar" %}</a>
+            <a href="{% url 'users:detail' u.pk %}" class="btn btn-sm btn-info">{% trans "Ver" %}</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">{% trans "No hay usuarios." %}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock main %}

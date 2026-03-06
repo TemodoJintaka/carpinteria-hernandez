@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block title %}
+  {% trans "Nuevo usuario" %}
+{% endblock title %}
+{% block main %}
+  <h1>{% trans "Nuevo usuario" %}</h1>
+  <form class="form-horizontal"
+        method="post"
+        action="{% url 'users:create' %}"
+        enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn btn-primary">{% trans "Crear" %}</button>
+        <a href="{% url 'users:list' %}" class="btn btn-secondary">{% trans "Cancelar" %}</a>
+      </div>
+    </div>
+  </form>
+{% endblock main %}

@@ -1,0 +1,28 @@
+{% load i18n %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-madera shadow-sm">
+  <div class="container">
+    <a class="navbar-brand font-serif fs-4" href="{% url 'landing:landing' %}">Madera</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLanding" aria-controls="navbarLanding" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarLanding">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'landing:landing' %}#productos">{% trans "Productos" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'landing:landing' %}#nosotros">{% trans "Nosotros" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'landing:landing' %}#contacto">{% trans "Contacto" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'landing:catalog' %}">{% trans "Catálogo" %}</a>
+        </li>
+        <li class="nav-item ms-2">
+          <a class="btn btn-outline-light btn-sm" href="{% url 'account_login' %}">{% trans "Entrar" %}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

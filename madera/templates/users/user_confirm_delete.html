@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+  {% trans "Eliminar cuenta" %}
+{% endblock title %}
+{% block main %}
+  <h1>{% trans "Eliminar cuenta" %}</h1>
+  <p>{% trans "¿Está seguro de que desea eliminar su cuenta? Esta acción no se puede deshacer." %}</p>
+  <form method="post" action="{% url 'users:delete' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">{% trans "Sí, eliminar mi cuenta" %}</button>
+    <a href="{% url 'users:detail' request.user.pk %}" class="btn btn-secondary">{% trans "Cancelar" %}</a>
+  </form>
+{% endblock main %}

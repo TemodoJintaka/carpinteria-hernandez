@@ -85,6 +85,7 @@ LOCAL_APPS = [
     "madera.users",
     "madera.catalog",
     "madera.ventas",
+    "madera.web",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -105,7 +106,8 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "users:redirect"
+# Después de iniciar sesión vamos al dashboard (HomeView).
+LOGIN_REDIRECT_URL = "home"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
 
@@ -273,7 +275,15 @@ ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 # https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# No requerimos verificación de correo; tras registrarse se redirige al login.
+ACCOUNT_EMAIL_VERIFICATION = "none"
+# No iniciar sesión automáticamente después del registro.
+ACCOUNT_LOGIN_ON_SIGNUP = False
+# Cerrar sesión inmediatamente al hacer GET en /accounts/logout/
+# (sin página intermedia de confirmación).
+ACCOUNT_LOGOUT_ON_GET = True
+# Tras cerrar sesión, redirigir siempre a la pantalla de login.
+ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_ADAPTER = "madera.users.adapters.AccountAdapter"
 # https://docs.allauth.org/en/latest/account/forms.html

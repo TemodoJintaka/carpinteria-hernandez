@@ -1,0 +1,39 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'es' }}">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Madera{% endblock title %} | {% trans "Madera de calidad" %}</title>
+  <meta name="description" content="{% block meta_description %}{% trans 'Venta de madera de calidad para construcción, muebles y proyectos. Cortes a medida y asesoría.' %}{% endblock meta_description %}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --madera-primary: #5c4033;
+      --madera-secondary: #8b6914;
+      --madera-light: #c4a35a;
+      --madera-bg: #f5f0e8;
+      --madera-dark: #2d1810;
+    }
+    body { font-family: 'Outfit', sans-serif; background-color: var(--madera-bg); color: var(--madera-dark); }
+    .font-serif { font-family: 'DM Serif Display', serif; }
+    .bg-madera { background-color: var(--madera-primary); }
+    .text-madera { color: var(--madera-primary); }
+    .btn-madera { background-color: var(--madera-primary); border-color: var(--madera-primary); color: #fff; }
+    .btn-madera:hover { background-color: var(--madera-dark); border-color: var(--madera-dark); color: #fff; }
+    .navbar-dark .navbar-nav .nav-link { color: rgba(255,255,255,.85); }
+    .navbar-dark .navbar-nav .nav-link:hover { color: #fff; }
+  </style>
+  {% block extrastyle %}{% endblock extrastyle %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+  {% include "landing/includes/navbar.html" %}
+  <main class="flex-grow-1">
+    {% block content %}{% endblock content %}
+  </main>
+  {% include "landing/includes/footer.html" %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  {% block extra_scripts %}{% endblock extra_scripts %}
+</body>
+</html>
