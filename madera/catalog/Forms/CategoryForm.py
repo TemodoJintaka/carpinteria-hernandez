@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from ..models import Category
+from madera.catalog.models import Category
 
 
 class CategoryForm(forms.ModelForm):

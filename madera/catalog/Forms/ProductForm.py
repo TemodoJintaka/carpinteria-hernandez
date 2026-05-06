@@ -1,12 +1,21 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from ..models import Product, Category
+from madera.catalog.models import Product
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "price_usd", "stock", "category", "image", "is_published","description"]
+        fields = [
+            "name",
+            "price_usd",
+            "stock",
+            "category",
+            "image",
+            "is_published",
+            "description",
+        ]
         labels = {
             "name": _("Nombre"),
             "description": _("Descripción"),
@@ -18,5 +27,7 @@ class ProductForm(forms.ModelForm):
         }
         widgets = {
             "category": forms.Select(attrs={"class": "form-control select-as-input"}),
-            "is_published": forms.CheckboxInput(attrs={"class": "custom-control-input"}),
+            "is_published": forms.CheckboxInput(
+                attrs={"class": "custom-control-input"},
+            ),
         }

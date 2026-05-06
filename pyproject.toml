@@ -125,6 +125,10 @@ ignore = [
     # https://github.com/astral-sh/ruff/issues/7871
 ]
 
+[tool.ruff.lint.per-file-ignores]
+# Legacy filenames (PascalCase); renaming would churn imports across the app.
+"madera/catalog/Forms/*.py" = ["N999"]
+
 [tool.ruff.lint.isort]
 force-single-line = true
 

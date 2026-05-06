@@ -1,15 +1,11 @@
 from django.urls import path
 
+from madera.web.views import LandingCatalogView
+from madera.web.views import LandingPageView
+
 app_name = "landing"
 
-
-def get_urlpatterns():
-    from madera.web.views import LandingCatalogView, LandingPageView
-
-    return [
-        path("", LandingPageView.as_view(), name="landing"),
-        path("catalogo/", LandingCatalogView.as_view(), name="catalog"),
-    ]
-
-
-urlpatterns = get_urlpatterns()
+urlpatterns = [
+    path("", LandingPageView.as_view(), name="landing"),
+    path("catalogo/", LandingCatalogView.as_view(), name="catalog"),
+]

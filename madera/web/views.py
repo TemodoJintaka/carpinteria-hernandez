@@ -1,6 +1,4 @@
 from django.views.generic import TemplateView
-from madera.catalog.models import Product, Category
-from django.views.generic import ListView
 
 
 class LandingPageView(TemplateView):
@@ -15,5 +13,3 @@ class LandingCatalogView(TemplateView):
     """
 
     template_name = "landing/catalog.html"
-
-

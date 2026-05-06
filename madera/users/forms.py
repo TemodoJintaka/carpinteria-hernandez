@@ -35,16 +35,15 @@ class UserCreationForm(ModelForm):
             raise ValidationError(_("The two password fields didn't match."))
         return password2
 
-    def save(self, commit=True):
+    def save(self, commit=True):  # noqa: FBT002
         extra = {"name": self.cleaned_data.get("name", "")}
         if self.cleaned_data.get("image"):
             extra["image"] = self.cleaned_data["image"]
-        user = User.objects.create_user(
+        return User.objects.create_user(
             email=self.cleaned_data["email"],
             password=self.cleaned_data["password1"],
             **extra,
         )
-        return user
 
 
 class UserUpdateForm(ModelForm):
@@ -85,7 +84,7 @@ class UserUpdateForm(ModelForm):
                 raise ValidationError(_("Las dos contraseñas no coinciden."))
         return password2
 
-    def save(self, commit=True):
+    def save(self, commit=True):  # noqa: FBT002
         user = super().save(commit=False)
         password = self.cleaned_data.get("password1")
         if password:

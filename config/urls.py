@@ -5,8 +5,11 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include
 from django.urls import path
 from django.views import defaults as default_views
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import RedirectView
+from django.views.generic import TemplateView
+
 from madera.catalog.views import HomeView
+
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
     path("dashboardv2/", HomeView.as_view(), name="dashboardv2"),

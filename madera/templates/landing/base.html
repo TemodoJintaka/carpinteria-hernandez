@@ -24,6 +24,52 @@
     .btn-madera:hover { background-color: var(--madera-dark); border-color: var(--madera-dark); color: #fff; }
     .navbar-dark .navbar-nav .nav-link { color: rgba(255,255,255,.85); }
     .navbar-dark .navbar-nav .nav-link:hover { color: #fff; }
+
+    /* Tarjetas de producto (landing): hover profesional sin recargar */
+    .landing-product-card {
+      transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .landing-product-card:hover,
+    .landing-product-card:focus-within {
+      transform: translateY(-8px) scale(1.025);
+      box-shadow:
+        0 1.25rem 2.5rem rgba(45, 24, 16, 0.14),
+        0 0.35rem 0.85rem rgba(92, 64, 51, 0.1) !important;
+    }
+    .landing-product-card .card-img-top {
+      transition: filter 0.4s ease;
+    }
+    .landing-product-card:hover .card-img-top,
+    .landing-product-card:focus-within .card-img-top {
+      filter: brightness(0.97);
+    }
+    .landing-product-card .card-img-top i {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+    }
+    .landing-product-card:hover .card-img-top i,
+    .landing-product-card:focus-within .card-img-top i {
+      transform: scale(1.12);
+      opacity: 1;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .landing-product-card,
+      .landing-product-card .card-img-top,
+      .landing-product-card .card-img-top i {
+        transition: none;
+      }
+      .landing-product-card:hover,
+      .landing-product-card:focus-within {
+        transform: none;
+        box-shadow: 0 0.5rem 1rem rgba(45, 24, 16, 0.1) !important;
+      }
+      .landing-product-card:hover .card-img-top i,
+      .landing-product-card:focus-within .card-img-top i {
+        transform: none;
+      }
+    }
   </style>
   {% block extrastyle %}{% endblock extrastyle %}
 </head>
